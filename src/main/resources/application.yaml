@@ -2,5 +2,8 @@ spring:
   application.name: registry
   datasource:
     password: ${DATASOURCE_PASSWORD:postgres}
-    url: ${DATASOURCE_URL:localhost:5432}
+    url: ${DATASOURCE_URL:jdbc:postgresql//localhost:5432}
     username: ${DATASOURCE_USERNAME:postgres}
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: db/changelog/changelog-master.yaml
