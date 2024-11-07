@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create-group-table
-      author: assistant
+      author: Johan-laptop (generated)
       changes:
         - createTable:
             tableName: "group"

@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: add-index-for-privilege-group-foreign-key
-      author: assistant
+      author: Johan-laptop (generated)
       changes:
         - createIndex:
             indexName: idx_privilege_group_id
@@ -12,7 +12,7 @@ databaseChangeLog:
 
   - changeSet:
       id: add-index-for-grantee-group-foreign-key
-      author: assistant
+      author: Johan-laptop (generated)
       changes:
         - createIndex:
             indexName: idx_grantee_group_id
