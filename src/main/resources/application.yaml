@@ -1,0 +1,6 @@
+spring:
+  application.name: registry
+  datasource:
+    password: ${DATASOURCE_PASSWORD:postgres}
+    url: ${DATASOURCE_URL:localhost:5432}
+    username: ${DATASOURCE_USERNAME:postgres}
