@@ -1,10 +1,10 @@
 package m7011e.the_homeric_odyssey.registry.services;
 
+import m7011e.the_homeric_odyssey.registry.models.ResourceNotFoundException;
 import m7011e.the_homeric_odyssey.registry.models.domain.User;
 import m7011e.the_homeric_odyssey.registry.orm.UserDb;
 import m7011e.the_homeric_odyssey.registry.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -25,16 +25,16 @@ public class UserPersistenceService {
         return mapEntity(userRepository.saveAndFlush(userDb));
     }
 
-    public User getUserById(UUID id) throws ChangeSetPersister.NotFoundException {
+    public User getUserById(UUID id) {
         return userRepository.findById(id)
                 .map(this::mapEntity)
-                .orElseThrow(ChangeSetPersister.NotFoundException::new);
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
-    public User getUserByEmail(String email) throws ChangeSetPersister.NotFoundException {
+    public User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .map(this::mapEntity)
-                .orElseThrow(ChangeSetPersister.NotFoundException::new);
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     public User updateUser(User user) {

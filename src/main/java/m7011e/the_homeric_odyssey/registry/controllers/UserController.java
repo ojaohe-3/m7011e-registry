@@ -1,35 +1,45 @@
 package m7011e.the_homeric_odyssey.registry.controllers;
 
 import m7011e.the_homeric_odyssey.registry.api.UserApi;
+import m7011e.the_homeric_odyssey.registry.models.ResourceNotFoundException;
+import m7011e.the_homeric_odyssey.registry.models.ValidationException;
 import m7011e.the_homeric_odyssey.registry.models.commands.UserCommand;
 import m7011e.the_homeric_odyssey.registry.models.domain.User;
+import m7011e.the_homeric_odyssey.registry.services.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
-@Controller(value = "apis/v1/users")
+@RestController(value = "/users")
 public class UserController implements UserApi {
 
     private final ModelMapper modelMapper;
 
-    public UserController(ModelMapper modelMapper) {
+    private final UserService userService;
+
+    public UserController(ModelMapper modelMapper, UserService userService) {
         this.modelMapper = modelMapper;
+        this.userService = userService;
     }
 
     @Override
-    public ResponseEntity<User> createUser(UserCommand user) {
-        return null;
+    public ResponseEntity<User> createUser(UserCommand userCommand) {
+        User user = modelMapper.map(userCommand, User.class);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
     }
 
     @Override
     public ResponseEntity<User> getUserById(UUID id) {
-        return null;
+        return ResponseEntity.ok(userService.getUser(id));
     }
 
     @Override
-    public ResponseEntity<User> updateUser(UUID id, UserCommand user) {
-        return null;
+    public ResponseEntity<User> updateUser(UUID id, UserCommand userCommand) {
+        User user = modelMapper.map(userCommand, User.class);
+        return ResponseEntity.ok(userService.updateUser(id, user));
     }
 }

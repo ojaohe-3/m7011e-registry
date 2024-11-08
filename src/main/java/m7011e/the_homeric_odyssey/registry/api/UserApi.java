@@ -26,7 +26,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "403", description = "Unauthorized"),
             @ApiResponse(responseCode = "401", description = "Invalid credentials")
     })
-    @PostMapping
+    @PostMapping("/create")
     ResponseEntity<User> createUser(@RequestBody UserCommand user);
 
     @Operation(summary = "Get a user by ID")
@@ -41,7 +41,7 @@ public interface UserApi {
     @GetMapping("/{id}")
     ResponseEntity<User> getUserById(@PathVariable UUID id);
 
-    @Operation(summary = "Get a user by ID")
+    @Operation(summary = "Update a user by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the user",
                     content = {@Content(mediaType = "application/json",
