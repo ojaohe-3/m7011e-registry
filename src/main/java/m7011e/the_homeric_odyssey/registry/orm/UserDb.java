@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.Data;
@@ -32,9 +33,6 @@ public class UserDb {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @Column(unique = true, nullable = false)
-    private String clientId;
-
     @Column(nullable = false)
     private String email;
 
@@ -46,4 +44,7 @@ public class UserDb {
 
     @Column(nullable = false)
     private UserType userType;
+
+    @OneToOne(targetEntity = UserDb.class)
+    private UUID scopeId;
 }

@@ -42,4 +42,8 @@ public class UserService {
 
         return userPersistenceService.updateUser(toUpdate);
     }
+
+    public User getUserByEmail(String email) {
+        return userPersistenceService.getUserByEmail(email);
+    }
 }

@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
+
 
 public interface UserApi {
     @Operation(summary = "Create a new user")
@@ -40,6 +42,18 @@ public interface UserApi {
     })
     @GetMapping("/{id}")
     ResponseEntity<User> getUserById(@PathVariable UUID id);
+
+    @Operation(summary = "Get a user by Email")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the user",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))}),
+            @ApiResponse(responseCode = "404", description = "User not found"),
+            @ApiResponse(responseCode = "403", description = "Unauthorized"),
+            @ApiResponse(responseCode = "401", description = "Invalid credentials")
+    })
+    @GetMapping("/{id}")
+    ResponseEntity<User> getUserByEmail(@RequestParam String email);
 
     @Operation(summary = "Update a user by ID")
     @ApiResponses(value = {
