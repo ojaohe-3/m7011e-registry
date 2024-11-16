@@ -12,13 +12,8 @@ import java.util.function.Supplier;
 public class UserRequiredField implements UserValidationRow {
     @Override
     public void validate(User user, Errors errors) {
-        rejectOnCondition(clientIdExists(user), errors, "clientId", "clientId.is.required");
         rejectOnCondition(emailExists(user), errors, "email", "email.is.required");
         rejectOnCondition(userTypeExists(user), errors, "userType", "userType.is.required");
-    }
-
-    private Supplier<Boolean> clientIdExists(User user) {
-        return () -> StringUtil.isEmpty(user.getClientId());
     }
 
     private Supplier<Boolean> emailExists(User user) {

@@ -1,6 +1,7 @@
 package m7011e.the_homeric_odyssey.registry.models;
 
 import lombok.Getter;
+import m7011e.the_homeric_odyssey.registry.models.domain.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;

@@ -1,6 +1,6 @@
 package m7011e.the_homeric_odyssey.registry.controllers;
 
-import m7011e.the_homeric_odyssey.registry.models.ErrorMessage;
+import m7011e.the_homeric_odyssey.registry.models.domain.ErrorMessage;
 import m7011e.the_homeric_odyssey.registry.models.ResourceNotFoundException;
 import m7011e.the_homeric_odyssey.registry.models.ValidationException;
 import org.springframework.http.HttpStatus;

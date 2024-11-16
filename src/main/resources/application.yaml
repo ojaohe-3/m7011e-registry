@@ -7,3 +7,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   liquibase:
     change-log: db/changelog/changelog-master.yaml
+
+registry:
+  api:
+    url: ${APPLICATION_REGISTRY_URL:http://localhost:8080}

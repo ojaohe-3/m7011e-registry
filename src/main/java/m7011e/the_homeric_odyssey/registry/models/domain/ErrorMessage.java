@@ -1,4 +1,4 @@
-package m7011e.the_homeric_odyssey.registry.models;
+package m7011e.the_homeric_odyssey.registry.models.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

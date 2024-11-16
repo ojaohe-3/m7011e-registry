@@ -1,7 +1,6 @@
 package m7011e.the_homeric_odyssey.registry.models.domain;
 
 import lombok.Data;
-import m7011e.the_homeric_odyssey.registry.models.UserType;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -16,8 +15,6 @@ public class User {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
-
-    private String clientId;
 
     private String email;
 

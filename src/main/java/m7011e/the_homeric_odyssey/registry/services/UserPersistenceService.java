@@ -6,9 +6,11 @@ import m7011e.the_homeric_odyssey.registry.orm.UserDb;
 import m7011e.the_homeric_odyssey.registry.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+@Transactional
 @Service
 public class UserPersistenceService {
     private final UserRepository userRepository;
