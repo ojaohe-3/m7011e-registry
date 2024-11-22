@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import m7011e.the_homeric_odyssey.registry.models.commands.UserCommand;
 import m7011e.the_homeric_odyssey.registry.models.domain.User;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
 
-
+@Tag(name = "Registry")
 public interface UserApi {
     @Operation(summary = "Create a new user")
     @ApiResponses(value = {
@@ -52,7 +53,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "403", description = "Unauthorized"),
             @ApiResponse(responseCode = "401", description = "Invalid credentials")
     })
-    @GetMapping("/{id}")
+    @GetMapping("/")
     ResponseEntity<User> getUserByEmail(@RequestParam String email);
 
     @Operation(summary = "Update a user by ID")

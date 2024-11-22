@@ -12,7 +12,8 @@ public class ModelMapperConfigurations {
 
     public void configureModelMapper(ModelMapper modelMapper) {
 
-        modelMapper.createTypeMap(User.class, UserDb.class);
+        modelMapper.createTypeMap(User.class, UserDb.class)
+                .addMappings(mapping -> mapping.skip(UserDb::setScopeId));
         modelMapper.createTypeMap(UserDb.class, User.class);
         modelMapper.createTypeMap(User.class, UserCommand.class);
         modelMapper.createTypeMap(UserCommand.class, UserCommand.class);

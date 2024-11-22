@@ -1,16 +1,16 @@
 package m7011e.the_homeric_odyssey.registry.services;
 
-import m7011e.the_homeric_odyssey.registry.models.ResourceNotFoundException;
 import m7011e.the_homeric_odyssey.registry.models.domain.User;
 import m7011e.the_homeric_odyssey.registry.orm.UserDb;
 import m7011e.the_homeric_odyssey.registry.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-@Transactional
+@Transactional("transactionManager")
 @Service
 public class UserPersistenceService {
     private final UserRepository userRepository;

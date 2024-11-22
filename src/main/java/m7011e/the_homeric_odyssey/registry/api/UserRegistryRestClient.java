@@ -8,6 +8,6 @@ import org.springframework.cloud.openfeign.FeignClient;
         path = "users",
         primary = false
 )
-public interface UserApiClient extends UserApi {
+public interface UserRegistryRestClient extends UserApi {
  String FQN = "m7011e.the_homeric_odyssey.registry.api.UserApiClient";
 }

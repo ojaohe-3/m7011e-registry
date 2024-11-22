@@ -5,7 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan
-@EnableFeignClients
+@ComponentScan(basePackages= "m7011e.the_homeric_odyssey.registry.api")
+@EnableFeignClients(basePackages= "m7011e.the_homeric_odyssey.registry.api")
 public class UserRegistryClientConfiguration {
 }
