@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'groovy'
+    id 'idea'
     id 'maven-publish'
     id 'org.springframework.boot' version '3.3.5'
     id 'io.spring.dependency-management' version '1.1.6'
@@ -58,6 +59,8 @@ repositories {
     mavenCentral()
 
     maven {
+        allowInsecureProtocol = true
+
         url("${reposiliteUrl}/snapshots")
         name "Reposilite"
         credentials(PasswordCredentials) {
@@ -70,6 +73,8 @@ repositories {
     }
 
     maven {
+        allowInsecureProtocol = true
+
         url("${reposiliteUrl}/releases")
         name "Reposilite"
         credentials(PasswordCredentials) {
@@ -85,6 +90,7 @@ repositories {
 publishing {
     repositories {
         maven {
+            allowInsecureProtocol = true
             if(project.version.toString().endsWith('-SNAPSHOT')) {
                 url ("${reposiliteUrl}/snapshots")
             } else {
@@ -112,8 +118,10 @@ publishing {
 }
 
 dependencies {
-    implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'common-dependencies', version:'0.0.5-V-71--branch-SNAPSHOT')
 
+    implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'common-dependencies', version:'0.0.6-V-71--branch-SNAPSHOT8')
+    api 'm7011e.the-homeric-odyssey:resource-server'
+    api 'm7011e.the-homeric-odyssey:authentication-components'
     api 'org.springframework.boot:spring-boot-starter-actuator'
     api 'org.springframework.boot:spring-boot-starter-data-jpa'
     api 'org.liquibase:liquibase-core'

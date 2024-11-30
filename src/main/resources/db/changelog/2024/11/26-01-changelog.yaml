@@ -1,13 +1,13 @@
 databaseChangeLog:
   - changeSet:
-      id: 1731596775146-5
-      author: Johan-laptop
+      id: 1732655857328-1
+      author: johan
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       preConditions:
         - onFail: MARK_RAN
           not:
             tableExists:
-              tableName: user
+              tableName: vendor_user
       changes:
         - createTable:
             columns:
@@ -15,18 +15,20 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     primaryKey: true
-                    primaryKeyName: user_pkey
+                    primaryKeyName: pk_user
                   name: id
-                  type: char(36)
+                  type: UUID
               - column:
+                  constraints:
+                    nullable: false
                   name: version
                   type: INT
               - column:
                   name: created_at
-                  type: timestamp
+                  type: DATETIME
               - column:
                   name: updated_at
-                  type: timestamp
+                  type: DATETIME
               - column:
                   constraints:
                     nullable: false
@@ -45,5 +47,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   name: user_type
-                  type: VARCHAR(255)
-            tableName: user
+                  type: SMALLINT
+              - column:
+                  name: scope_id
+                  type: UUID
+              - column:
+                  name: sub
+                  type: UUID
+            tableName: vendor_user
+
+

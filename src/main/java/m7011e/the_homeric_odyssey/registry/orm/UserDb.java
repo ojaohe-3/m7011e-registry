@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user")
+@Table(name = "vendor_user")
 @Data
 public class UserDb {
     @Id
@@ -45,6 +45,7 @@ public class UserDb {
     @Column(nullable = false)
     private UserType userType;
 
-    @OneToOne(targetEntity = UserDb.class)
     private UUID scopeId;
+
+    private UUID sub;
 }

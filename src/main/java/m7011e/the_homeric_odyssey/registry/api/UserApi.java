@@ -29,7 +29,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "403", description = "Unauthorized"),
             @ApiResponse(responseCode = "401", description = "Invalid credentials")
     })
-    @PostMapping("/create")
+    @PostMapping("/")
     ResponseEntity<User> createUser(@RequestBody UserCommand user);
 
     @Operation(summary = "Get a user by ID")

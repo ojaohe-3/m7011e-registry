@@ -26,4 +26,8 @@ public class User {
 
     private UserType userType;
 
+    private UUID scopeId;
+
+    private UUID sub;
+
 }

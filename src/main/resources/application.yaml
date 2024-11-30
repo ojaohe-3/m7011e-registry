@@ -1,4 +1,10 @@
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_BASE_URL:http://localhost:8090/realms/The-Homeric-Odyssey-Vendor}
+          jwk-set-uri: ${KEYCLOAK_BASE_JWK:http://localhost:8090/realms/The-Homeric-Odyssey-Vendor/protocol/openid-connect/certs}
   application.name: registry
   datasource:
     password: ${DATASOURCE_PASSWORD:example}
@@ -11,3 +17,10 @@ spring:
 registry:
   api:
     url: ${APPLICATION_REGISTRY_URL:http://localhost:8080}
+
+logging:
+  level:
+    root: info
+
+resource-server:
+  client-id: ${KEYCLOAK_CLIENT_ID:auth-server-client}

@@ -10,7 +10,7 @@ public class UserEmailValidator implements UserValidationRow {
 
     @Override
     public void validate(User user, Errors errors) {
-        rejectOnCondition(() -> EmailValidator.getInstance().isValid(user.getEmail()),
+        rejectOnCondition(() -> !EmailValidator.getInstance().isValid(user.getEmail()),
                 errors,
                 "email",
                 "email.not.valid");
