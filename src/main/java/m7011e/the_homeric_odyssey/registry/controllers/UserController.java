@@ -1,7 +1,6 @@
 package m7011e.the_homeric_odyssey.registry.controllers;
 
 import lombok.AllArgsConstructor;
-import m7011e.the_homeric_odyssey.authentication_components.services.UserAuthenticationHelper;
 import m7011e.the_homeric_odyssey.registry.api.UserApi;
 import m7011e.the_homeric_odyssey.registry.models.commands.UserCommand;
 import m7011e.the_homeric_odyssey.registry.models.domain.User;
@@ -24,8 +23,6 @@ public class UserController implements UserApi {
     private final ModelMapper modelMapper;
 
     private final UserService userService;
-
-    private final UserAuthenticationHelper userAuthenticationHelper;
 
     @PreAuthorize("hasAnyRole('SYSTEM', 'WRITE', 'READ')")
     @Override

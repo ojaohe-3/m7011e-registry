@@ -20,7 +20,7 @@ scmVersion {
     ignoreUncommittedChanges.set(false)
     tag {
         versionIncrementer('incrementPatch')
-        prefix.set('v.')
+        prefix.set('v')
 
     }
 }
@@ -119,7 +119,7 @@ publishing {
 
 dependencies {
 
-    implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'common-dependencies', version:'0.0.6-V-71--branch-SNAPSHOT8')
+    implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'common-dependencies', version:'0.0.6-V-71--branch-SNAPSHOT13')
     api 'm7011e.the-homeric-odyssey:resource-server'
     api 'm7011e.the-homeric-odyssey:authentication-components'
     api 'org.springframework.boot:spring-boot-starter-actuator'
