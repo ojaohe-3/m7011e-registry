@@ -1,6 +1,6 @@
 package m7011e.the_homeric_odyssey.registry.services.validation.user;
 
-import m7011e.the_homeric_odyssey.registry.models.domain.User;
+import m7011e.the_homeric_odyssey.models.domain.User;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

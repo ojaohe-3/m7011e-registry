@@ -1,13 +1,13 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'groovy'
     id 'idea'
     id 'maven-publish'
     id 'org.springframework.boot' version '3.3.5'
+    id 'org.liquibase.gradle' version '2.2.0'
     id 'io.spring.dependency-management' version '1.1.6'
     id 'org.hibernate.orm' version '6.5.3.Final'
     id 'org.graalvm.buildtools.native' version '0.10.3'
-    id 'org.liquibase.gradle' version '2.2.0'
     id "pl.allegro.tech.build.axion-release" version "1.18.7"
 }
 
@@ -26,14 +26,37 @@ scmVersion {
 }
 
 group = 'm7011e.the-homeric-odyssey'
-project.version = scmVersion.version
+project.version = '0.1.0'
 
-allprojects {
+
+subprojects.each {
+    check.dependsOn("${it.name}:check")
+    publish.dependsOn("${it.name}:publish")
+    assemble.dependsOn("${it.name}:assemble")
+}
+
+subprojects {
     apply plugin: 'java-library'
     apply plugin: 'groovy'
     apply plugin: 'maven-publish'
+    apply plugin: 'org.springframework.boot'
 
+    group = rootProject.group
     project.version = rootProject.version
+
+    bootJar {
+        enabled = false
+    }
+
+    jar {
+        enabled = true
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
+        }
+    }
 }
 
 
@@ -43,106 +66,50 @@ java {
     }
 }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
+allprojects {
+    project.version = rootProject.version
+
+    apply from: "$rootDir/gradle/repository.gradle"
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+        bom
+        compileOnly.extendsFrom(bom)
+        annotationProcessor.extendsFrom(bom)
+        implementation.extendsFrom(bom)
     }
 
-    bom
-    compileOnly.extendsFrom(bom)
-    annotationProcessor.extendsFrom(bom)
-    implementation.extendsFrom(bom)
-    liquidsbase.extendsFrom(bom)
-}
+    dependencies {
+        implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'common-dependencies', version: '0.1.0')
+        api 'm7011e.the-homeric-odyssey:resource-server'
+        api 'm7011e.the-homeric-odyssey:authentication-components'
 
-repositories {
-    mavenCentral()
+        implementation platform('org.springframework.boot:spring-boot-dependencies:3.4.0')
+        implementation platform('org.springframework.cloud:spring-cloud-dependencies:2023.0.3')
 
-    maven {
-        allowInsecureProtocol = true
+        implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation(group: 'org.modelmapper', name: 'modelmapper', version: '3.2.1')
 
-        url("${reposiliteUrl}/snapshots")
-        name "Reposilite"
-        credentials(PasswordCredentials) {
-            username = reposiliteUser
-            password = reposiliteSecret
-        }
-        authentication {
-            basic(BasicAuthentication)
-        }
+        compileOnly 'org.projectlombok:lombok:1.18.36'
+        annotationProcessor 'org.projectlombok:lombok:1.18.36'
+
     }
-
-    maven {
-        allowInsecureProtocol = true
-
-        url("${reposiliteUrl}/releases")
-        name "Reposilite"
-        credentials(PasswordCredentials) {
-            username = reposiliteUser
-            password = reposiliteSecret
-        }
-        authentication {
-            basic(BasicAuthentication)
-        }
-    }
-}
-
-publishing {
-    repositories {
-        maven {
-            allowInsecureProtocol = true
-            if(project.version.toString().endsWith('-SNAPSHOT')) {
-                url ("${reposiliteUrl}/snapshots")
-            } else {
-                url ("${reposiliteUrl}/releases")
-            }
-            name "Reposilite"
-            credentials(PasswordCredentials) {
-                username = reposiliteUser
-                password = reposiliteSecret
-            }
-            authentication {
-                basic(BasicAuthentication)
-            }
-        }
-    }
-    publications {
-
-        maven(MavenPublication) {
-            groupId = group
-            version = version
-            from components.java
-        }
-    }
-
 }
 
 dependencies {
+    implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'common-dependencies', version: '0.0.6-V-71--branch-SNAPSHOT13')
+    implementation 'm7011e.the-homeric-odyssey:resource-server'
+    implementation 'm7011e.the-homeric-odyssey:authentication-components'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-    implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'common-dependencies', version:'0.0.6-V-71--branch-SNAPSHOT13')
-    api 'm7011e.the-homeric-odyssey:resource-server'
-    api 'm7011e.the-homeric-odyssey:authentication-components'
-    api 'org.springframework.boot:spring-boot-starter-actuator'
-    api 'org.springframework.boot:spring-boot-starter-data-jpa'
-    api 'org.liquibase:liquibase-core'
-    api 'org.springframework.session:spring-session-core'
-    api 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    api(group: 'org.modelmapper', name: 'modelmapper', version: '3.2.1')
-    api 'org.springframework.boot:spring-boot-starter-data-rest'
-    api 'org.springframework.boot:spring-boot-starter-security'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
     runtimeOnly 'org.postgresql:postgresql'
-
-    liquibaseRuntime 'org.liquibase:liquibase-core:4.24.0'
-    liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:2.1.1'
-    liquibaseRuntime 'info.picocli:picocli:4.7.5'
-    liquibaseRuntime 'org.yaml:snakeyaml:2.0'
-    liquibaseRuntime 'org.postgresql:postgresql'
-
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.apache.groovy:groovy:4.0.15'
@@ -150,8 +117,50 @@ dependencies {
     testImplementation 'org.spockframework:spock-spring:2.3-groovy-4.0'
     testImplementation 'net.bytebuddy:byte-buddy:1.14.9'
     testImplementation 'com.athaydes:spock-reports:2.5.1-groovy-4.0'
+
+    api project(":registry-orm")
+    api project(":registry-models-api")
 }
 
+project(":registry-models-api"){
+
+        dependencies {
+        implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'common-dependencies', version: '0.1.0')
+
+        api 'org.springframework.boot:spring-boot-starter-data-rest'
+        api 'org.springframework.boot:spring-boot-starter-data-jpa'
+        api 'org.springframework.boot:spring-boot-starter'
+        api 'org.springframework.boot:spring-boot-starter-web'
+        api 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    }
+
+}
+
+project(':registry-orm'){
+    apply plugin: 'org.hibernate.orm'
+    apply plugin: 'org.liquibase.gradle'
+
+
+    configurations {
+        liquibase
+    }
+
+    dependencies{
+        implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'common-dependencies', version: '0.1.0')
+        implementation platform('org.springframework.boot:spring-boot-dependencies:3.4.0')
+        implementation platform('org.springframework.cloud:spring-cloud-dependencies:2023.0.3')
+
+        api project(":registry-models-api")
+        api 'org.liquibase:liquibase-core'
+
+        runtimeOnly 'org.postgresql:postgresql'
+        liquibaseRuntime 'org.liquibase:liquibase-core:4.24.0'
+        liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:2.1.1'
+        liquibaseRuntime 'info.picocli:picocli:4.7.5'
+        liquibaseRuntime 'org.yaml:snakeyaml:2.0'
+        liquibaseRuntime 'org.postgresql:postgresql'
+    }
+}
 
 
 hibernate {
@@ -159,13 +168,6 @@ hibernate {
         enableAssociationManagement = true
     }
 }
-
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
-    }
-}
-
 
 tasks.named('test') {
     useJUnitPlatform()

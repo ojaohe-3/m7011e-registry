@@ -1,7 +1,7 @@
 package m7011e.the_homeric_odyssey.registry.services.validation.user;
 
 import liquibase.util.StringUtil;
-import m7011e.the_homeric_odyssey.registry.models.domain.User;
+import m7011e.the_homeric_odyssey.models.domain.User;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 

@@ -1,8 +1,9 @@
 package m7011e.the_homeric_odyssey.registry.configs;
 
-import m7011e.the_homeric_odyssey.registry.models.commands.UserCommand;
-import m7011e.the_homeric_odyssey.registry.models.domain.User;
-import m7011e.the_homeric_odyssey.registry.orm.UserDb;
+
+import m7011e.the_homeric_odyssey.models.commands.UserCommand;
+import m7011e.the_homeric_odyssey.models.domain.User;
+import m7011e.the_homeric_odyssey.registry_orm.orm.UserDb;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +13,7 @@ public class ModelMapperConfigurations {
 
     public void configureModelMapper(ModelMapper modelMapper) {
 
-        modelMapper.createTypeMap(User.class, UserDb.class)
-                .addMappings(mapping -> mapping.skip(UserDb::setScopeId));
+        modelMapper.createTypeMap(User.class, UserDb.class);
         modelMapper.createTypeMap(UserDb.class, User.class);
         modelMapper.createTypeMap(User.class, UserCommand.class);
         modelMapper.createTypeMap(UserCommand.class, UserCommand.class);

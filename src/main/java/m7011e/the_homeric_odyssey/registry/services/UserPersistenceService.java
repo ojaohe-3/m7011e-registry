@@ -1,7 +1,7 @@
 package m7011e.the_homeric_odyssey.registry.services;
 
-import m7011e.the_homeric_odyssey.registry.models.domain.User;
-import m7011e.the_homeric_odyssey.registry.orm.UserDb;
+import m7011e.the_homeric_odyssey.models.domain.User;
+import m7011e.the_homeric_odyssey.registry_orm.orm.UserDb;
 import m7011e.the_homeric_odyssey.registry.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;

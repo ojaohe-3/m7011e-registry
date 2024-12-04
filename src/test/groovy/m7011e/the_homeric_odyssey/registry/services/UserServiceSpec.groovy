@@ -1,6 +1,6 @@
 package m7011e.the_homeric_odyssey.registry.services
 
-import m7011e.the_homeric_odyssey.registry.models.domain.User
+import m7011e.the_homeric_odyssey.models.domain.User
 import m7011e.the_homeric_odyssey.registry.services.authentication.AuthenticationService
 import m7011e.the_homeric_odyssey.registry.services.validation.CompositeUserValidator
 import m7011e.the_homeric_odyssey.resource_server.exceptions.ForbiddenException
