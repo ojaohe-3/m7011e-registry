@@ -102,7 +102,7 @@ allprojects {
 }
 
 dependencies {
-    implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'common-dependencies', version: '0.0.6-V-71--branch-SNAPSHOT13')
+    implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'common-dependencies', version: '0.1.0')
     implementation 'm7011e.the-homeric-odyssey:resource-server'
     implementation 'm7011e.the-homeric-odyssey:authentication-components'
     implementation 'org.springframework.boot:spring-boot-starter-security'
