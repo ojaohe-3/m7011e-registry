@@ -1,4 +1,4 @@
-package m7011e.the_homeric_odyssey.registry.api;
+package m7011e.the_homeric_odyssey.api;
 
 import org.springframework.cloud.openfeign.FeignClient;
 
@@ -9,5 +9,5 @@ import org.springframework.cloud.openfeign.FeignClient;
         primary = false
 )
 public interface UserRegistryRestClient extends UserApi {
- String FQN = "m7011e.the_homeric_odyssey.registry.api.UserApiClient";
+    String FQN = "m7011e.the_homeric_odyssey.registry.m7011e.the_homeric_odyssey.api.UserApiClient";
 }

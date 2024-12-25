@@ -1,10 +1,10 @@
-package m7011e.the_homeric_odyssey.registry.models.commands;
+package m7011e.the_homeric_odyssey.models.commands;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import m7011e.the_homeric_odyssey.registry.models.domain.UserType;
+import m7011e.the_homeric_odyssey.models.domain.UserType;
 
 import java.util.UUID;
 

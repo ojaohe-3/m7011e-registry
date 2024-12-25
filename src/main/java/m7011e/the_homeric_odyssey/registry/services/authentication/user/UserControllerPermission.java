@@ -2,7 +2,7 @@ package m7011e.the_homeric_odyssey.registry.services.authentication.user;
 
 import lombok.AllArgsConstructor;
 import m7011e.the_homeric_odyssey.authentication_components.services.UserAuthenticationHelper;
-import m7011e.the_homeric_odyssey.registry.models.domain.User;
+import m7011e.the_homeric_odyssey.models.domain.User;
 import m7011e.the_homeric_odyssey.resource_server.models.RealmUserType;
 
 import java.util.Objects;

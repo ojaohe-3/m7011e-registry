@@ -1,4 +1,4 @@
-package m7011e.the_homeric_odyssey.registry.api;
+package m7011e.the_homeric_odyssey.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -7,10 +7,11 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import m7011e.the_homeric_odyssey.registry.models.commands.UserCommand;
-import m7011e.the_homeric_odyssey.registry.models.domain.User;
+import m7011e.the_homeric_odyssey.models.commands.UserCommand;
+import m7011e.the_homeric_odyssey.models.domain.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.UUID;
 
