@@ -1,7 +1,7 @@
 package m7011e.the_homeric_odyssey.registry.services.authentication;
 
 import lombok.AllArgsConstructor;
-import m7011e.the_homeric_odyssey.registry.models.domain.User;
+import m7011e.the_homeric_odyssey.models.domain.User;
 import m7011e.the_homeric_odyssey.registry.services.authentication.user.UserRowPermission;
 import org.springframework.stereotype.Service;
 

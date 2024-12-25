@@ -1,6 +1,6 @@
 package m7011e.the_homeric_odyssey.registry.services.authentication.user;
 
-import m7011e.the_homeric_odyssey.registry.models.domain.User;
+import m7011e.the_homeric_odyssey.models.domain.User;
 import m7011e.the_homeric_odyssey.registry.services.authentication.AuthenticationRowPermission;
 import org.springframework.stereotype.Component;
 

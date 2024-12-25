@@ -1,8 +1,8 @@
-package m7011e.the_homeric_odyssey.registry.orm;
+package m7011e.the_homeric_odyssey.registry_orm.orm;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import m7011e.the_homeric_odyssey.registry.models.domain.UserType;
+import m7011e.the_homeric_odyssey.models.domain.UserType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -13,6 +13,7 @@ import java.util.UUID;
 @Table(name = "vendor_user")
 @Data
 public class UserDb {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
