@@ -37,6 +37,7 @@ public class UserDb {
     private String phoneNumber;
 
     @Column(nullable = false)
+
     private UserType userType;
 
     private UUID scopeId;

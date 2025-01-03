@@ -82,7 +82,7 @@ allprojects {
     }
 
     dependencies {
-        implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'common-dependencies', version: '0.1.0')
+        implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'common-dependencies', version: '0.1.1-vs-70--common-test-container-SNAPSHOT')
         api 'm7011e.the-homeric-odyssey:resource-server'
         api 'm7011e.the-homeric-odyssey:authentication-components'
 
@@ -117,6 +117,7 @@ dependencies {
     testImplementation 'org.spockframework:spock-spring:2.3-groovy-4.0'
     testImplementation 'net.bytebuddy:byte-buddy:1.14.9'
     testImplementation 'com.athaydes:spock-reports:2.5.1-groovy-4.0'
+    testImplementation
 
     api project(":registry-orm")
     api project(":registry-models-api")
@@ -175,4 +176,32 @@ tasks.named('test') {
     testLogging {
         events "started", "passed", "skipped", "failed"
     }
+}
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integration-test/java')
+        }
+        resources {
+            srcDir file('src/integration-test/resources')
+        }
+    }
+}
+
+configurations {
+    integrationTestImplementation.extendsFrom testImplementation
+    integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
+tasks.register('integrationTest', Test) {
+    group = "verification"
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    outputs.upToDateWhen { false }
+}
+
+tasks.named('check') {
+    dependsOn integrationTest
 }
