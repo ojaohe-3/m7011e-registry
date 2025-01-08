@@ -1,6 +1,8 @@
 package m7011e.the_homeric_odyssey.registry.services;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import m7011e.the_homeric_odyssey.authentication_components.services.UserAuthenticationHelper;
 import m7011e.the_homeric_odyssey.models.domain.User;
 import m7011e.the_homeric_odyssey.registry.services.authentication.AuthenticationService;
 import m7011e.the_homeric_odyssey.registry.services.validation.CompositeUserValidator;
@@ -12,6 +14,7 @@ import java.util.UUID;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserPersistenceService userPersistenceService;
@@ -22,15 +25,13 @@ public class UserService {
 
     private final ModelMapper modelMapper;
 
-    public UserService(UserPersistenceService userPersistenceService, CompositeUserValidator compositeUserValidator, AuthenticationService compositeUserAuthentication, ModelMapper modelMapper) {
-        this.userPersistenceService = userPersistenceService;
-        this.compositeUserValidator = compositeUserValidator;
-        this.compositeUserAuthentication = compositeUserAuthentication;
-        this.modelMapper = modelMapper;
-    }
+    private final UserAuthenticationHelper userAuthenticationHelper;
 
     public User createUser(User user) {
         compositeUserValidator.validate(user);
+        user.setSub(UUID.fromString(userAuthenticationHelper.getUserId().orElseThrow()));
+        userAuthenticationHelper.getUserScope().ifPresent(it -> user.setScopeId(UUID.fromString(it)));
+        log.info("User with email {} was created.", user.getEmail());
         return userPersistenceService.createUser(user);
     }
 
@@ -38,7 +39,7 @@ public class UserService {
         User userById = userPersistenceService.getUserById(id);
 
         if (!compositeUserAuthentication.hasReadPermission(userById)) {
-            log.info("Failed to fetch User with id {}, lacks read permission", userById.getId());
+            log.warn("Failed to fetch User with id {}, lacks read permission", userById.getId());
             throw new ForbiddenException("User lacks read permission");
         }
 
@@ -49,9 +50,9 @@ public class UserService {
         User toUpdate = userPersistenceService.getUserById(id);
         user.setId(toUpdate.getId());
         user.setVersion(toUpdate.getVersion());
-
+        log.info("User {} was updated.", id);
         if (!compositeUserAuthentication.hasWritePermission(toUpdate)) {
-            log.info("Failed to update User with id {}, lacks write permission", toUpdate.getId());
+            log.warn("Failed to update User with id {}, lacks write permission", toUpdate.getId());
             throw new ForbiddenException("User lacks write permission");
         }
 
