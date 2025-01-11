@@ -1,5 +1,6 @@
 package m7011e.the_homeric_odyssey.registry.services.validation;
 
+import lombok.extern.slf4j.Slf4j;
 import m7011e.the_homeric_odyssey.models.domain.User;
 import m7011e.the_homeric_odyssey.registry.services.validation.user.UserValidationRow;
 import m7011e.the_homeric_odyssey.resource_server.exceptions.ValidationException;
@@ -9,6 +10,7 @@ import org.springframework.validation.Errors;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class CompositeUserValidator {
 
@@ -25,6 +27,7 @@ public class CompositeUserValidator {
         }
 
         if (errors.hasErrors()) {
+            log.error("User have errors");
             throw new ValidationException(errors);
         }
     }

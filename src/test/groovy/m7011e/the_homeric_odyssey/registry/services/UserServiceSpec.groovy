@@ -1,5 +1,6 @@
 package m7011e.the_homeric_odyssey.registry.services
 
+import m7011e.the_homeric_odyssey.authentication_components.services.UserAuthenticationHelper
 import m7011e.the_homeric_odyssey.models.domain.User
 import m7011e.the_homeric_odyssey.registry.services.authentication.AuthenticationService
 import m7011e.the_homeric_odyssey.registry.services.validation.CompositeUserValidator
@@ -8,14 +9,21 @@ import org.modelmapper.ModelMapper
 import spock.lang.Specification
 
 class UserServiceSpec extends Specification {
+    def userPersistenceService = Mock(UserPersistenceService)
+    def compositeUserValidator = Mock(CompositeUserValidator)
+    def compositeUserAuthentication = Mock(AuthenticationService)
+    def modelMapper = Mock(ModelMapper)
+    def userAuthenticationHelper = Mock(UserAuthenticationHelper)
+    def userService = new UserService(userPersistenceService, compositeUserValidator, compositeUserAuthentication, modelMapper, userAuthenticationHelper)
+
+    def setup(){
+        _ * userAuthenticationHelper.getUserScope() >> Optional.empty()
+        _ * userAuthenticationHelper.getUserId() >> Optional.of(UUID.randomUUID().toString())
+
+    }
 
     def "test createUser"() {
-        setup:
-        def userPersistenceService = Mock(UserPersistenceService)
-        def compositeUserValidator = Mock(CompositeUserValidator)
-        def compositeUserAuthentication = Mock(AuthenticationService)
-        def modelMapper = Mock(ModelMapper)
-        def userService = new UserService(userPersistenceService, compositeUserValidator, compositeUserAuthentication, modelMapper)
+        given:
         def user = new User()
 
         when:
@@ -28,12 +36,7 @@ class UserServiceSpec extends Specification {
     }
 
     def "test getUser with permission"() {
-        setup:
-        def userPersistenceService = Mock(UserPersistenceService)
-        def compositeUserValidator = Mock(CompositeUserValidator)
-        def compositeUserAuthentication = Mock(AuthenticationService)
-        def modelMapper = Mock(ModelMapper)
-        def userService = new UserService(userPersistenceService, compositeUserValidator, compositeUserAuthentication, modelMapper)
+        given:
         def user = new User(id: UUID.randomUUID())
 
         when:
@@ -46,12 +49,7 @@ class UserServiceSpec extends Specification {
     }
 
     def "test getUser without permission throws ForbiddenException"() {
-        setup:
-        def userPersistenceService = Mock(UserPersistenceService)
-        def compositeUserValidator = Mock(CompositeUserValidator)
-        def compositeUserAuthentication = Mock(AuthenticationService)
-        def modelMapper = Mock(ModelMapper)
-        def userService = new UserService(userPersistenceService, compositeUserValidator, compositeUserAuthentication, modelMapper)
+        given:
         def user = new User(id: UUID.randomUUID())
 
         when:
@@ -64,12 +62,7 @@ class UserServiceSpec extends Specification {
     }
 
     def "test updateUser with permission"() {
-        setup:
-        def userPersistenceService = Mock(UserPersistenceService)
-        def compositeUserValidator = Mock(CompositeUserValidator)
-        def compositeUserAuthentication = Mock(AuthenticationService)
-        def modelMapper = Mock(ModelMapper)
-        def userService = new UserService(userPersistenceService, compositeUserValidator, compositeUserAuthentication, modelMapper)
+        given:
         def existingUser = new User(id: UUID.randomUUID(), version: 1)
         def updatedUser = new User()
 
@@ -86,12 +79,7 @@ class UserServiceSpec extends Specification {
     }
 
     def "test updateUser without permission throws ForbiddenException"() {
-        setup:
-        def userPersistenceService = Mock(UserPersistenceService)
-        def compositeUserValidator = Mock(CompositeUserValidator)
-        def compositeUserAuthentication = Mock(AuthenticationService)
-        def modelMapper = Mock(ModelMapper)
-        def userService = new UserService(userPersistenceService, compositeUserValidator, compositeUserAuthentication, modelMapper)
+        given:
         def existingUser = new User(id: UUID.randomUUID(), version: 1)
         def updatedUser = new User()
 
@@ -105,12 +93,7 @@ class UserServiceSpec extends Specification {
     }
 
     def "test getUserByEmail"() {
-        setup:
-        def userPersistenceService = Mock(UserPersistenceService)
-        def compositeUserValidator = Mock(CompositeUserValidator)
-        def compositeUserAuthentication = Mock(AuthenticationService)
-        def modelMapper = Mock(ModelMapper)
-        def userService = new UserService(userPersistenceService, compositeUserValidator, compositeUserAuthentication, modelMapper)
+        given:
         def email = "test@example.com"
         def user = new User(email: email)
 

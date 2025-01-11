@@ -31,19 +31,19 @@ public class UserController implements UserApi {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
     }
 
-    @PreAuthorize("hasAnyAuthority('VENDOR', 'SYSTEM', 'CUSTOMER', 'READ')")
+    @PreAuthorize("hasAnyRole('VENDOR', 'SYSTEM', 'CUSTOMER', 'READ')")
     @Override
     public ResponseEntity<User> getUserById(UUID id) {
         return ResponseEntity.ok(userService.getUser(id));
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('VENDOR', 'SYSTEM', 'CUSTOMER', 'READ')")
+    @PreAuthorize("hasAnyRole('VENDOR', 'SYSTEM', 'CUSTOMER', 'READ')")
     public ResponseEntity<User> getUserByEmail(String email) {
         return ResponseEntity.ok(userService.getUserByEmail(email));
     }
 
-    @PreAuthorize("hasAnyAuthority('VENDOR', 'SYSTEM', 'CUSTOMER', 'WRITE')")
+    @PreAuthorize("hasAnyRole('VENDOR', 'SYSTEM', 'CUSTOMER', 'WRITE')")
     @Override
     public ResponseEntity<User> updateUser(UUID id, UserCommand userCommand) {
         User user = modelMapper.map(userCommand, User.class);

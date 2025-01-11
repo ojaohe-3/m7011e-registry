@@ -9,6 +9,7 @@ plugins {
     id 'org.hibernate.orm' version '6.5.3.Final'
     id 'org.graalvm.buildtools.native' version '0.10.3'
     id "pl.allegro.tech.build.axion-release" version "1.18.7"
+    id 'com.palantir.docker' version '0.36.0'
 }
 
 ext {
@@ -26,8 +27,20 @@ scmVersion {
 }
 
 group = 'm7011e.the-homeric-odyssey'
-project.version = scmVersion.version
+project.version = "0.1.1"
 
+docker {
+    name "ojaohe/${rootProject.group}.${rootProject.name}:${project.version}"
+    dockerfile file('Dockerfile')
+    files bootJar.outputs.files
+    buildArgs([
+            'JAR_FILE': "${bootJar.archiveFileName.get()}"
+    ])
+}
+
+tasks.named('docker') {
+    dependsOn(':build')
+}
 
 subprojects.each {
     check.dependsOn("${it.name}:check")
@@ -59,7 +72,6 @@ subprojects {
     }
 }
 
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
@@ -71,7 +83,14 @@ allprojects {
 
     apply from: "$rootDir/gradle/repository.gradle"
 
+
     configurations {
+
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_21
+            targetCompatibility = JavaVersion.VERSION_21
+        }
+
         compileOnly {
             extendsFrom annotationProcessor
         }
@@ -122,9 +141,9 @@ dependencies {
     api project(":registry-models-api")
 }
 
-project(":registry-models-api"){
+project(":registry-models-api") {
 
-        dependencies {
+    dependencies {
         implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'common-dependencies', version: '0.1.0')
 
         api 'org.springframework.boot:spring-boot-starter-data-rest'
@@ -136,7 +155,7 @@ project(":registry-models-api"){
 
 }
 
-project(':registry-orm'){
+project(':registry-orm') {
     apply plugin: 'org.hibernate.orm'
     apply plugin: 'org.liquibase.gradle'
 
@@ -145,7 +164,7 @@ project(':registry-orm'){
         liquibase
     }
 
-    dependencies{
+    dependencies {
         implementation platform(group: 'm7011e.the-homeric-odyssey', name: 'common-dependencies', version: '0.1.0')
         implementation platform('org.springframework.boot:spring-boot-dependencies:3.4.0')
         implementation platform('org.springframework.cloud:spring-cloud-dependencies:2023.0.3')
